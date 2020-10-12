@@ -14,10 +14,10 @@ use Simcify\Middleware\RedirectIfAuthenticated;
  *  */
 Router::csrfVerifier(new BaseCsrfVerifier());
 
-// Router::group(array(
-//     'prefix' => '/landa'
-// ), function()
-// {
+Router::group(array(
+    'prefix' => '/Stage_driveflex'
+), function()
+{
     
     Router::group(array(
         'exceptionHandler' => Handler::class
@@ -25,7 +25,9 @@ Router::csrfVerifier(new BaseCsrfVerifier());
     {
         
         Router::group(array(
-            'middleware' => Simcify\Middleware\Authenticate::class
+            'middlewaregroup' => Simcify\Middleware\Authenticate::class,  Simcify\Middleware\TrailMiddleware::class
+            
+            
         ), function()
         {
             //Dashboard
@@ -189,6 +191,13 @@ Router::csrfVerifier(new BaseCsrfVerifier());
             // update
             Router::get('/update', 'Update@get');
             Router::post('/update/scan', 'Update@scan');
+
+            //mollie
+            Router::get('/trail','Trail@get');
+            Router::get('/trail/{id}','Trail@pay', array(
+                'as' => 'trailpay'
+            ));
+
         });
         
         Router::group(array(
@@ -223,4 +232,4 @@ Router::csrfVerifier(new BaseCsrfVerifier());
         
     });
     
-// });
+});

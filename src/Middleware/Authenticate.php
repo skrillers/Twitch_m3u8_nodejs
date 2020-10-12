@@ -19,6 +19,9 @@ class Authenticate implements IMiddleware {
         Auth::remember();
         
         if (Auth::check()) {
+            
+
+
             $request->user = Auth::user();
             $school = School::setup();
             date_default_timezone_set($school->timezone);

@@ -1,7 +1,7 @@
 <?php
 
-ini_set('display_errors', 'Off');
-error_reporting(0);
+ini_set('display_errors', 'On');
+error_reporting(1);
 
 include_once 'vendor/autoload.php';
 

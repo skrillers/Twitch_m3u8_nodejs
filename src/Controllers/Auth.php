@@ -75,10 +75,16 @@ class Auth {
             "role" => 'admin'
         ), array(
             "authenticate" => true,
-            "redirect" => url('Dashboard@get'),
+            "redirect" => url('Trail@get'),
             "uniqueEmail" => input('email')
         ));
         
+
+        
+
+
+
+
         return response()->json($signup);
         
     }
