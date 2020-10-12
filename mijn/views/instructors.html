@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Driving School Management System">
+    <meta name="author" content="Simcy Creative">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('') }}uploads/app/{{ env('APP_ICON'); }}">
+    <title>Instructors | Landa Driving School Management System</title>
+
+    <!-- Material design icons -->
+    <link href="{{ url('') }}assets/fonts/mdi/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="{{ url('') }}assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Simcify CSS -->
+    <link href="{{ url('') }}assets/css/simcify.min.css" rel="stylesheet">
+
+    <!-- Landa CSS -->
+    <link href="{{ url('') }}assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- sidebar -->
+    @include("includes/sidebar")
+
+    <!-- header -->
+    @include("includes/header")
+
+    <!-- main content -->
+    <div class="main-content">
+        <div class="page-header">
+            <button type="button" class="btn btn-primary btn-icon pull-right ml-5" data-toggle="modal" data-target="#create"><i class=" mdi mdi-account-plus-outline"></i> Instructeur toevoegen </button>
+            <button type="button" class="btn btn-success btn-icon pull-right toggle-search"><i class=" mdi mdi-filter-outline"></i> Zoek & filter </button>
+            <h3>Instructeurs</h3>
+        </div>
+
+
+        <!-- page content -->
+        <div class="row">
+
+            <!-- search & Filter -->
+            <div class="col-md-12 search-filter" style="display: none;">
+               <div class="card">
+                <form class="form" action="" method="GET">
+                    <div class="row">
+                        <div class="col-md-8">
+                              <div class="form-group">
+                                <label>Zoek naam</label>
+                                <input type="text" class="form-control" placeholder="Search naam, e-mail of telefoonnummer" name="search">
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                              <div class="form-group">
+                                <label for="email">Geslacht</label>
+                                <select class="form-control" name="gender">
+                                    <option value="">Selecteer geslacht*</option>
+                                    <option value="">Allemaal</option>
+                                    <option value="Male">Man</option>
+                                    <option value="Female">Vrouw</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                              <button class="btn btn-primary btn-icon btn-block"><i class=" mdi mdi-filter-outline"></i> Zoek</button>
+                        </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+            @if(!empty($instructors))
+                @foreach($instructors as $instructor)
+                <!-- user grid -->
+                <div class="col-md-3">
+                    <div class="user-grid card">
+                        <div class="user-grid-pic">
+                            @if( !empty($instructor->avatar) )
+                            <img src="{{ url('') }}uploads/avatar/{{ $instructor->avatar }}">
+                            @else
+                            <img src="{{ url('') }}assets/images/avatar.png">
+                            @endif
+                        </div>
+                        <div class="user-grid-info">
+                            <h5>{{$instructor->fname}} {{$instructor->lname}}</h5>
+                            <p>Instructeur van {{$instructor->courses}} Cursus(sen)</p>
+                            <p>{{$instructor->phone}}</p>
+                        </div>
+                        <div class="row user-grid-buttons">
+                            <div class="col-md-6 p-5">
+                                <a class="btn btn-primary btn-block" href="{{url('Profile@get',['userid'=>$instructor->id])}}">Profiel</a>
+                            </div>
+                            <div class="col-md-6 p-5">
+                                <a class="btn btn-default btn-block" href="{{url('Schedule@get')}}?filter=instructor&filterid={{ $instructor->id }}">Agenda</a>
+                            </div>
+                        </div>
+                        <div class="user-grid-class-left">
+                            <p class="text-success"><i class=" mdi mdi-counter"></i> {{$instructor->completed}} Cursus(sen) compleet</p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            @else
+            <div class="col-md-12">
+                <div class="empty">
+                    <i class="mdi mdi-alert-circle-outline"></i>
+                    <h3>Nog geen instructeurs!</h3>
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
+
+    <!-- footer -->
+    @include("includes/footer")
+
+<!-- modals -->
+<div class="modal right fade" id="create" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="mdi mdi-close-circle-outline"></i></span></button>
+                    <h4 class="modal-title">Add Instructor</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="simcy-form" data-parsley-validate="" action="{{ url('Instructor@create') }}" method="POST" loader="true">
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            
+                          </div>
+                        </div>
+                        <label>Voornaam</label>
+                        <input type="text" class="form-control" placeholder="Voornaam" name="fname" required>
+                        <input type="hidden" value="{{csrf_token()}}" name="csrf-token">
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Achternaam</label>
+                            <input type="text" class="form-control" placeholder="Achternaam" name="lname" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>E-mail</label>
+                            <input type="text" class="form-control" placeholder="E-mail" name="email" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Telefoonnummer</label>
+                            <input type="text" class="form-control" placeholder="Telefoonnummer" name="phone" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label for="email">Geslacht</label>
+                            <select class="form-control" name="gender" required>
+                                <option value="Male">Man</option>
+                                <option value="Female">Vrouw</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <button class="btn btn-primary btn-block">Account aanmaken</button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </form>
+                </div>
+
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
+
+   <script src="{{ url('') }}assets/js/jquery-3.3.1.min.js"></script>
+   <script src="{{ url('') }}assets/js/popper.min.js"></script>
+   <script src="{{ url('') }}assets/libs/bootstrap/js/bootstrap.min.js"></script>
+   <script src="{{ url('') }}assets/libs/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="{{ url('') }}assets/js/simcify.min.js"></script>
+   <script src="{{ url('') }}assets/js/app.js"></script>
+</body>
+</html>

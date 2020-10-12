@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Driving School Management System">
+    <meta name="author" content="Simcy Creative">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('') }}uploads/app/{{ env('APP_ICON'); }}">
+    <title>Students | Landa Driving School Management System</title>
+
+    <!-- Material design icons -->
+    <link href="{{ url('') }}assets/fonts/mdi/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="{{ url('') }}assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Simcify CSS -->
+    <link href="{{ url('') }}assets/css/simcify.min.css" rel="stylesheet">
+
+    <!-- Landa CSS -->
+    <link href="{{ url('') }}assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- sidebar -->
+    @include("includes/sidebar")
+
+    <!-- header -->
+    @include("includes/header")
+
+    <!-- main content -->
+    <div class="main-content">
+        <div class="page-header">
+            <button type="button" class="btn btn-primary btn-icon pull-right ml-5" data-toggle="modal" data-target="#create"><i class=" mdi mdi-account-plus-outline"></i> Student toevoegen </button>
+            <button type="button" class="btn btn-success btn-icon pull-right toggle-search"><i class=" mdi mdi-filter-outline"></i> Zoek & filter </button>
+            <h3>Studenten</h3>
+        </div>
+
+
+        <!-- page content -->
+        <div class="row">
+
+            <!-- search & Filter -->
+            <div class="col-md-12 search-filter" style="display: none;">
+                <div class="card">
+                    <form class="row" action="" method="GET">
+                        <div class="col-md-4">
+                              <div class="form-group">
+                                <label>Zoek naam, e-mail of telefoonnummer</label>
+                                <input type="text" class="form-control" placeholder="Zoek Naam, E-mail of Telefoonnummer" name="search">
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                              <div class="form-group">
+                                <label for="email">Vooruitgang</label>
+                                <select class="form-control" name="status">
+                                    <option value="0">Selecteer vooruitgang*</option>
+                                    <option value="All">Allemaal</option>
+                                    <option value="Complete">Compleet</option>
+                                    <option value="Ongoing">Voortgaande</option>
+                                    <option value="New">Nieuw</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                              <div class="form-group">
+                                <label for="email">Betaald</label>
+                                <select class="form-control" name="istatus"> 
+                                    <option value="0">Selecteer betaalstatus*</option>
+                                    <option value="All">Allemaal</option>
+                                    <option value="Paid">Betaald</option>
+                                    <option value="Partially">Gedeeltelijk</option>
+                                    <option value="Updaid">Onbetaald</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                              <div class="form-group">
+                                <label for="email">Geslacht</label>
+                                <select class="form-control" name="gender">
+                                    <option value="">Selecteer geslacht*</option>
+                                    <option value="">Allemaal</option>
+                                    <option value="Male">Man</option>
+                                    <option value="Female">Vrouw</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                              <button class="btn btn-primary btn-icon btn-block" type="submit"><i class=" mdi mdi-filter-outline"></i> Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @if(!empty($students))
+               @foreach($students as $student)
+                <!-- user grid -->
+                <div class="col-md-3">
+                    <div class="user-grid card">
+                        <div class="user-grid-pic">
+                            @if( !empty($student->avatar) )
+                            <img src="{{ url('') }}uploads/avatar/{{ $student->avatar }}">
+                            @else
+                            <img src="{{ url('') }}assets/images/avatar.png">
+                            @endif
+                        </div>
+                        <div class="user-grid-info">
+                            <h5>{{ $student->fname }} {{ $student->lname }}</h5>
+                            <p>{{ $student->courses }} course(s) Enrolled </p>
+                            <p>{{ $student->phone }}</p>
+                        </div>
+                        <div class="row user-grid-buttons">
+                            <div class="col-md-6 p-5">
+                                <a class="btn btn-primary btn-block" href="{{ url('Profile@get',['userid'=>$student->id]) }}">Profiel</a>
+                            </div>
+                            <div class="col-md-6 p-5">
+                                <a class="btn btn-default btn-block" href="{{url('Schedule@get')}}?filter=student&filterid={{ $student->id }}">Agenda</a>
+                            </div>
+                        </div>
+                        <div class="user-grid-class-left">
+                            <p class="text-success"><i class=" mdi mdi-counter"></i> {{$student->completed}} Class(es) Completed</p>
+                        </div>
+                    </div>
+                </div>
+               @endforeach
+            @else 
+            <div class="col-md-12">
+                <div class="empty">
+                    <i class="mdi mdi-alert-circle-outline"></i>
+                    <h3>Nog geen studenten!</h3>
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
+
+    <!-- footer -->
+    @include("includes/footer")
+
+<!-- modals -->
+<div class="modal right fade" id="create" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="mdi mdi-close-circle-outline"></i></span></button>
+                    <h4 class="modal-title" id="myModalLabel2">Student toevoegen</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="simcy-form" data-parsley-validate="" action="{{ url('Student@create') }}" method="POST" loader="true">
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Voornaam</label>
+                            <input type="text" class="form-control" placeholder="Voornaam" name="fname" required="">
+                            <input type="hidden" value="{{csrf_token()}}" name="csrf-token">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Achternaam</label>
+                            <input type="text" class="form-control" placeholder="Achternaam" name="lname" required="">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>E-mail</label>
+                            <input type="text" class="form-control" placeholder="E-mail" name="email" required="">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Telefoonnummer</label>
+                            <input type="text" class="form-control" placeholder="Telefoonnummer" name="phone" required="">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label for="email">Geslacht</label>
+                            <select class="form-control"name="gender" required="">
+                                <option value="Male">Man</option>
+                                <option value="Female">Vrouw</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Cursus</label>
+                            <select class="form-control select2" name="newcourse" required="">
+                                <option value="">Selecteer Cursus</option>
+                                @foreach($courses as $course)
+                                 <option value="{{$course->id}}">{{$course->name}} ( ${{$course->price }} )</option>
+                                @endforeach
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group newamount" style="display: none;">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Hoeveelheid betaald</label>
+                            <input type="number" class="form-control" placeholder="Amount Paid" value="0" name="amountpaid">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group newmethod" style="display: none;">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label for="email">Method of payment</label>
+                            <select class="form-control method" name="method">
+                                <option value="Cash">Contant</option>
+                                <option value="Mpesa">Mpesa</option>
+                                <option value="Paypal">Paypal</option>
+                                <option value="Card">Bankpas</option>
+                                <option value="Other">Anders</option>
+                            </select>
+                          </div>
+                        </div>
+                        </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <button class="btn btn-primary btn-block" type="submit">Account aanmaken</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
+   <script src="{{ url('') }}assets/js/jquery-3.3.1.min.js"></script>
+   <script src="{{ url('') }}assets/js/popper.min.js"></script>
+   <script src="{{ url('') }}assets/libs/bootstrap/js/bootstrap.min.js"></script>
+   <script src="{{ url('') }}assets/libs/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="{{ url('') }}assets/js/simcify.min.js"></script>
+   <script src="{{ url('') }}assets/js/app.js"></script>
+   <script>
+     //Hide Payment Method
+     $('.paymentmethod').hide();
+     //Conditionally show payment method
+     $('.amountpaid').on('keyup',function(){
+        if($(this).val() > 0){
+            $('.paymentmethod').show();
+            $('.method').attr('required',true);
+        } else {
+            $('.paymentmethod').hide();
+            $('.method').attr('required',false); 
+        }
+     });
+   </script>
+</body>
+</html>
