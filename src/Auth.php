@@ -173,7 +173,6 @@ class Auth {
                 );
             }
         }
-          
 
         $insert = Database::table(config('auth.table'))->insert($data);
         $newUserId = Database::table(config('auth.table'))->insertId();
@@ -182,7 +181,7 @@ class Auth {
             $user = Database::table(config('auth.table'))->where("id",$newUserId)->first();
             self::authenticate($user);
         }
-        
+
         if (isset($options['redirect'])) {
             $response = array(
                 "status" => "success",

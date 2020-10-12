@@ -29,8 +29,6 @@ Router::csrfVerifier(new BaseCsrfVerifier());
         ), function()
         {
             //Dashboard
-            Router::get('/', 'Trail@getfirst');
-
             Router::get('/', 'Dashboard@get');
             Router::get('/', 'Dashboard@get');
 

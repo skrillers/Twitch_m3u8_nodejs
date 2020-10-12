@@ -29,7 +29,6 @@
         "nesbot/carbon": "^1.36.2",
         "paragonie/random_compat": "<9.99",
         "mpdf/mpdf": "^7.1",
-        "gerardojbaez/money": "0.*",
-        "mollie/mollie-api-php": "^2.0"
+        "gerardojbaez/money": "0.*"
     }
 }

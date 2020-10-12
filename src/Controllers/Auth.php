@@ -40,16 +40,6 @@ class Auth {
      * @return Json
      */
     public function signup() {
-
-        $currenttime = time();
-        $endtrail = time() + (20 * 0 * 0 * 0);
-       
-
-
-        $mollie = new \Mollie\Api\MollieApiClient();
-        $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
-        
-
         $user = Database::table(config('auth.table'))->where(config('auth.emailColumn'), input('email'))->first();
         if (!empty($user)) {
             return response()->json(array(
@@ -82,19 +72,13 @@ class Auth {
             "password" => Authenticate::password(input('password')),
             "school" => $schoolId,
             "branch" => $branchId,
-            "role" => 'admin',
-          
-
+            "role" => 'admin'
         ), array(
             "authenticate" => true,
-            "redirect" => url('Trail@getfirst'),
+            "redirect" => url('Dashboard@get'),
             "uniqueEmail" => input('email')
         ));
-
-        $customer = $mollie->customers->create([
-            "name" => input('fname'),
-            "email" => input('email'),
-          ]);
+        
         return response()->json($signup);
         
     }
