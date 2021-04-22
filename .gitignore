@@ -1,7 +1,0 @@
-/vendor/
-node_modules/
-npm-debug.log
-yarn-error.log
-/assets/
-/mijn/assets/
-/mijn/vendor/
