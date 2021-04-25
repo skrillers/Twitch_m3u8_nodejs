@@ -1,7 +1,11 @@
+const { response } = require('express');
 const express = require('express');
 const twitch = require("twitch-m3u8");
 
 const app = express();
+app.use((request, response, next) => {
+    response.header("Acces-Control-Allow-Origin", "*");
+});
 
 app.get('/:twitchname' ,(req, res) => {
     twitch.getStream(req.params.twitchname)
