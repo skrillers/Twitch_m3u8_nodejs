@@ -15,7 +15,7 @@ app.get('/:twitchname' ,(req, res) => {
         .then(function(data){
              //var myJSON = JSON.stringify(data);
              //var parsed = JSON.parse(data);
-             //console.log(myJSON)
+             console.log(data)
 
 
 
