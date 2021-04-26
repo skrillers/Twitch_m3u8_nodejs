@@ -17,20 +17,10 @@ app.get('/:twitchname' ,(req, res) => {
         .then(function(data){
              //var myJSON = JSON.stringify(data);
              //var parsed = JSON.parse(data);
-             console.log(data)
-        
-             let URLT = new URL(request.url);
-             let file_code = URLT.searchParams.get("file_code")
-             let q = URLT.searchParams.get("q")
-             
-             data.forEach(element => {
-              console.log(element);
-            });
-
-
+            // console.log(data)
 
             res.send(`${JSON.stringify(data)}`)
-
+        
         })
         .catch(err => res.send(err));
 
