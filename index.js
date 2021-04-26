@@ -24,12 +24,7 @@ async function handleRequest(request) {
              //var parsed = JSON.parse(data);
             // console.log(data)
             
-            res.send(` <script> 
-            function pageRedirect() {
-               window.location.replace(${data[0].url});
-             }     
-         setTimeout("pageRedirect()", 0);
-            </script>`)
+            res.send(`${JSON.stringify(data)}`)
         
         })
         .catch(err => res.send(err));
