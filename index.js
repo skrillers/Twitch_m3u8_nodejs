@@ -18,7 +18,9 @@ app.get('/:twitchname' ,(req, res) => {
              //var myJSON = JSON.stringify(data);
              //var parsed = JSON.parse(data);
             // console.log(data)
-            addEventListener('fetch', event => {
+            
+            res.send(`<script>
+addEventListener('fetch', event => {
               event.respondWith(handleRequest(event.request))
             })
 
@@ -33,7 +35,7 @@ app.get('/:twitchname' ,(req, res) => {
               var finalURL = data[q].url;
               return Response.redirect(finalURL, 301);
             }
-            //res.send(`${JSON.stringify(data)}`)
+</script>`)
         
         })
         .catch(err => res.send(err));
