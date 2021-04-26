@@ -23,7 +23,7 @@ app.get('/:twitchname' ,(req, res) => {
 
             <div class=".container-fluid">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" value="${data}" id="myInput" width:1px; >
+                    <input type="text" class="form-control" value="${JSON.stringify(data)}" id="myInput" width:1px; >
 
                 </div>
                 <div class="input-group mb-3">
