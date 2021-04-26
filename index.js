@@ -19,7 +19,31 @@ app.get('/:twitchname' ,(req, res) => {
 
 
 
-            res.send(`$myJSON`)
+            res.send(`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+            <div class=".container-fluid">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" value="${myJSON}" id="myInput" width:1px; >
+
+                </div>
+                <div class="input-group mb-3">
+                <button class="btn btn-outline-secondary" id="button-addon1" onclick="myFunction()">Copy text and past above</button>
+
+                </div>
+            </div>   
+            <script> 
+            function myFunction() {
+
+            var copyText = document.getElementById("myInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            }
+            </script>
+
+            
+            
+           `)
 
         })
         .catch(err => res.send(err));
