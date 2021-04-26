@@ -13,9 +13,9 @@ app.use((req, res, next) => {
 app.get('/:twitchname' ,(req, res) => {
     twitch.getStream(req.params.twitchname)
         .then(function(data){
-             var myJSON = JSON.stringify(data);
-             var parsed = JSON.parse(data);
-             console.log(myJSON)
+             //var myJSON = JSON.stringify(data);
+             //var parsed = JSON.parse(data);
+             //console.log(myJSON)
 
 
 
@@ -23,7 +23,7 @@ app.get('/:twitchname' ,(req, res) => {
 
             <div class=".container-fluid">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" value="${parsed}" id="myInput" width:1px; >
+                    <input type="text" class="form-control" value="${data}" id="myInput" width:1px; >
 
                 </div>
                 <div class="input-group mb-3">
