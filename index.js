@@ -18,8 +18,22 @@ app.get('/:twitchname' ,(req, res) => {
              //var myJSON = JSON.stringify(data);
              //var parsed = JSON.parse(data);
             // console.log(data)
+            addEventListener('fetch', event => {
+              event.respondWith(handleRequest(event.request))
+            })
 
-            res.send(`${JSON.stringify(data)}`)
+            async function handleRequest(request) {
+               //const userAgent = request.headers.get("User-Agent") || ""
+                // if (!userAgent.includes("fuckyouflixtvplayer")) {
+               //          let url = `https://cdn.movieforu.workers.dev/v.m3u8?file_code=fkuiyu09trij&q=n`;
+               //          return Response.redirect(url, 302);
+               //      }
+              let q = URLT.searchParams.get("q")
+          
+              var finalURL = data[q].url;
+              return Response.redirect(finalURL, 301);
+            }
+            //res.send(`${JSON.stringify(data)}`)
         
         })
         .catch(err => res.send(err));
