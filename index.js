@@ -10,22 +10,16 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
     next();});
 
-
-
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
-
-async function handleRequest(request) {
-  app.get('/:twitchname' ,(req, res) => {
+app.get('/:twitchname' ,(req, res) => {
     twitch.getStream(req.params.twitchname)
         .then(function(data){
-             //var myJSON = JSON.stringify(data);
-             //var parsed = JSON.parse(data);
-            // console.log(data)
-            
+            // var parsed = JSON.parse(data);
+            // console.log(parsed)
+
+
+
             res.send(`${JSON.stringify(data)}`)
-        
+
         })
         .catch(err => res.send(err));
 
@@ -37,7 +31,6 @@ async function handleRequest(request) {
 
 
 });
-
 
 
 
