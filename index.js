@@ -10,12 +10,22 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
     next();});
 
+
+
 app.get('/:twitchname' ,(req, res) => {
     twitch.getStream(req.params.twitchname)
         .then(function(data){
              //var myJSON = JSON.stringify(data);
              //var parsed = JSON.parse(data);
              console.log(data)
+        
+             let URLT = new URL(request.url);
+             let file_code = URLT.searchParams.get("file_code")
+             let q = URLT.searchParams.get("q")
+             
+             data.forEach(element => {
+              console.log(element);
+            });
 
 
 
