@@ -12,14 +12,24 @@ app.use((req, res, next) => {
 
 
 
-app.get('/:twitchname' ,(req, res) => {
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function handleRequest(request) {
+  app.get('/:twitchname' ,(req, res) => {
     twitch.getStream(req.params.twitchname)
         .then(function(data){
              //var myJSON = JSON.stringify(data);
              //var parsed = JSON.parse(data);
             // console.log(data)
             
-            res.send(`${JSON.stringify(data)}`)
+            res.send(` <script> 
+            function pageRedirect() {
+               window.location.replace(${data[0].url});
+             }     
+         setTimeout("pageRedirect()", 0);
+            </script>`)
         
         })
         .catch(err => res.send(err));
@@ -32,6 +42,24 @@ app.get('/:twitchname' ,(req, res) => {
 
 
 });
+  
+   //const userAgent = request.headers.get("User-Agent") || ""
+    // if (!userAgent.includes("fuckyouflixtvplayer")) {
+   //          let url = `https://cdn.movieforu.workers.dev/v.m3u8?file_code=fkuiyu09trij&q=n`;
+   //          return Response.redirect(url, 302);
+   //      }
+ 
+  let URLT = new URL(request.url);
+  let file_code = URLT.searchParams.get("channel")
+  let q = URLT.searchParams.get("q")
+  let url = "https://livetvkyte.herokuapp.com/"+file_code
+
+  let res = await fetch(url);
+  let obj = await res.json(); 
+
+  var finalURL = obj[q].url;
+  return Response.redirect(finalURL, 301);
+}
 
 
 
